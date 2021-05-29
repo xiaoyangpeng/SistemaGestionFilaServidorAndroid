@@ -10,6 +10,8 @@ import javax.swing.JTextArea;
 
 
 import dao.controlador.ControladorUsuarioLogin;
+import token.JwtUtil;
+import variables.VariableSQL;
 
 public class AccionLogin {
 
@@ -41,8 +43,7 @@ public class AccionLogin {
 			
 			
 		entrada=new DataInputStream(misocket.getInputStream());
-		
-		
+
 		int tamano = entrada.readInt();
 		
 		byte[] buffer = new byte[tamano];
@@ -89,8 +90,12 @@ public class AccionLogin {
 				
 				// modifcar el usaurio en linea
 				login.modificaUsuarioEnlinea(1,email);
-				
-			
+
+
+				String token= JwtUtil.crearToken(email,login.buscarIdUsuario(email));
+
+				salida.writeUTF(token);
+
 				// en el momento de que el usuario accede con su cuenta
 				// empiza contar atras 
 				// si dentro de 10 segundo no hay respuesta del usuario corta socket 

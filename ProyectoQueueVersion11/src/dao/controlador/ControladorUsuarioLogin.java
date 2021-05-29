@@ -1,6 +1,7 @@
 package dao.controlador;
 
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -112,7 +113,17 @@ public class ControladorUsuarioLogin extends BaseDao {
 		update(VariableSQL.ACTUALIZAR_CODIGO_ACTIVACION,codigo,email);
 		
 	}
-	
-	
+
+
+	public int buscarIdUsuario(String email) {
+
+		BigDecimal id =(BigDecimal)queryForUnValor(VariableSQL.CON_EMAIL_BUSCAR_ID_USUARIO, email);
+
+
+		return Integer.parseInt(id.toString());
+
+	}
+
+
 	
 }

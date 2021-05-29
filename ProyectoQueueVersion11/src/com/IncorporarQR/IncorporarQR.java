@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.net.Socket;
 
 import com.IncorporarQR.controlador.ControladorIncorporarQR;
-import com.incorporar.EscuchaOpcionProductos;
 import com.incorporar.MandaInformacionCola;
 
 public class IncorporarQR {
@@ -29,14 +28,12 @@ public class IncorporarQR {
 	
 	public void actuar() {
 		
-		
-		
+
 		try {
 			
 			entrada=new DataInputStream(misocket.getInputStream());
 			
-			
-			
+
 			int tamano = entrada.readInt();
 			
 			byte[] buffer = new byte[tamano];
@@ -45,11 +42,9 @@ public class IncorporarQR {
 			
 			email=new String(buffer);
 			
-			
-			
+
 			tamano=entrada.readInt();
-			
-			
+
 			byte[] buffer2 = new byte[tamano];
 			
 			entrada.readFully(buffer2);
@@ -89,21 +84,15 @@ public class IncorporarQR {
 		
 		DataOutputStream out=new DataOutputStream(misocket.getOutputStream());
 
-		
 		int respuesta=controladorIncorporarQR.siExisteQR();
 		
 		out.writeInt(respuesta);
 		
 		if(respuesta==1) {
 			
-			   // coger el turno 
+		   // coger el turno
 			String miturno=controladorIncorporarQR.incorporar();
-		
-			// arranca un hilo para esuchar los productos que eligra por el cliente
-			EscuchaOpcionProductos escuchaOpcionProductos=new EscuchaOpcionProductos(misocket);
-				
-			escuchaOpcionProductos.start();
-	
+
 			// entra en bucle para mandar informacion acerca de cola 
 			//siempre y cuando el socket esta conectado
 			MandaInformacionCola informacion=new MandaInformacionCola(misocket,controladorIncorporarQR.getId_cola(), controladorIncorporarQR.getId_usuario(),miturno);

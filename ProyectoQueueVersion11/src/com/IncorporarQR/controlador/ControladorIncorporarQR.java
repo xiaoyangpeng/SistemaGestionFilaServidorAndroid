@@ -136,6 +136,7 @@ public class ControladorIncorporarQR extends BaseDao{
 			throwables.printStackTrace();
 
 		}
+
 		update(VariableSQL.ANDAIR_USUARIOENCOLA_QR,id_usuario,id_cola,turnoCola,FehcaHoy.horaNow());
 		return  String.valueOf(turnoCola);
 	}

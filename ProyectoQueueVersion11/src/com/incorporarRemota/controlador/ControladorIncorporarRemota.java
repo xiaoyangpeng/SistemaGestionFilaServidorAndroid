@@ -2,6 +2,8 @@ package com.incorporarRemota.controlador;
 
 import dao.utils.BaseDao;
 import dao.utils.JdbcUtils;
+import token.JwtUtil;
+import variables.FehcaHoy;
 import variables.VariableSQL;
 
 import java.math.BigDecimal;
@@ -25,7 +27,7 @@ public class ControladorIncorporarRemota extends BaseDao {
         public ControladorIncorporarRemota(int tiempoQuiere, int id_cola,String token) {
                 this.tiempoQuiere = tiempoQuiere;
                 this.id_cola = id_cola;
-                this.token=token;
+                this.id_usuario= JwtUtil.vertificar(token);
 
         }
 
@@ -84,6 +86,9 @@ public class ControladorIncorporarRemota extends BaseDao {
                         throwables.printStackTrace();
 
                 }
+
+       update(VariableSQL.ANDAIR_USUARIOENCOLA_REMOTA,id_usuario,id_cola, turnoEstima, FehcaHoy.horaNow());
+
                 return  turnoEstima;
 
         }

@@ -1,10 +1,6 @@
 package com.acciones;
 
-import java.io.BufferedReader;
-
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 import java.net.Socket;
 
@@ -24,8 +20,8 @@ public class AccionSign {
 
 	private Socket misocket;
 	
-	BufferedReader entrada; 
-
+	//BufferedReader entrada;
+	DataInputStream entrada;
 	
 	public  AccionSign(	JTextArea textPane,Socket misocket) {
 		
@@ -40,21 +36,24 @@ public class AccionSign {
 	public void sign() {
 		
 		try {
+			entrada = new DataInputStream(misocket.getInputStream());
+
+			/*entrada=new BufferedReader(new InputStreamReader(misocket.getInputStream(),"UTF-8"));
 			
-			entrada=new BufferedReader(new InputStreamReader(misocket.getInputStream(),"UTF-8"));
+				/*StringBuffer datos=new StringBuffer();
 			
-			StringBuffer datos=new StringBuffer();
-			
-			String linea;
+		String linea;
 		
 			while((linea=entrada.readLine())!=null) {
 			
 				datos.append(linea);
 			
-			}
+			}*/
+
+			String datos=entrada.readUTF();
 		
 		
-			enviar(datos.toString());
+			enviar(datos);
 		
 		} catch (IOException e) {
 			
@@ -72,7 +71,7 @@ public class AccionSign {
 	
 	private void enviar(String datos) throws IOException {
 		
-		
+		System.out.println(datos);
 		Gson gosn=new Gson();
 		
 		usuario=gosn.fromJson(datos, UsuarioJson.class);
@@ -80,15 +79,15 @@ public class AccionSign {
 		DataOutputStream salida=new DataOutputStream(misocket.getOutputStream());
 		
 		ControladorUsuarioSign sign=new ControladorUsuarioSign(usuario);
-	
+
 		if(sign.siExisteEmail()) {
 			
-			salida.writeBoolean(true);
+			salida.writeInt(1);
 
 		}else {
 	
-			salida.writeBoolean(false);
-			
+			salida.writeInt(2);
+			System.out.println("adfadsfsdafsadfsadfdsf");
 		}
 		
 		sign.cerrarConexion();

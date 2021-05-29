@@ -16,6 +16,7 @@ import com.acciones.AccionSign;
 import com.IncorporarQR.IncorporarQR;
 
 
+import com.incorporarRemota.IncorporarRemota;
 import variables.VariableRealizarOperacion;
 
 public class ControladorServidor extends Thread {
@@ -140,10 +141,13 @@ public class ControladorServidor extends Thread {
 				
 				break;
 
-
-
-
 			default:
+
+				IncorporarRemota remota=new IncorporarRemota(misocket);
+
+				remota.actuar();
+
+
 				break;
 			}
 			

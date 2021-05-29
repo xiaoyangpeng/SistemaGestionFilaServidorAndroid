@@ -5,7 +5,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-import com.incorporar.EscuchaOpcionProductos;
 import com.incorporar.MandaInformacionCola;
 
 import dao.controlador.ControladroUsuarioSiestaEnCola;
@@ -71,17 +70,11 @@ private Socket misocket;
 		
 		if(controladroUsuarioSiestaEnCola.estaEnlaCola()) {
 			
-			out.writeBoolean(true);
+			out.writeUTF("true");
 			
-			String miturno=controladroUsuarioSiestaEnCola.buscarTurno();
+				String miturno=controladroUsuarioSiestaEnCola.buscarTurno();
 			
-			
-			// arranca un hilo para esuchar los productos que eligra por el cliente
-				EscuchaOpcionProductos escuchaOpcionProductos=new EscuchaOpcionProductos(misocket);
-							
-				escuchaOpcionProductos.start();
-			
-				
+					System.out.println("fffffffffffffffffffff");
 				// entra en bucle para mandar informacion acerca de cola 
 				//siempre y cuando el socket esta conectado
 			
@@ -100,7 +93,7 @@ private Socket misocket;
 			
 		}else {
 			
-			out.writeBoolean(false);
+			out.writeUTF("false");
 			out.close();
 			misocket.close();
 			

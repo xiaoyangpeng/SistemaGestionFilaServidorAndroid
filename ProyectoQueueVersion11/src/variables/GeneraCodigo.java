@@ -9,7 +9,7 @@ public class GeneraCodigo {
 	
 	public static String LetraAleatoria() {
 		
-		return RandomStringUtils.randomAlphanumeric(10);
+		return RandomStringUtils.randomAlphanumeric(4);
 		
 	}
 	

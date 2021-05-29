@@ -1,6 +1,6 @@
 package com.incorporarRemota;
 
-import com.incorporar.EscuchaOpcionProductos;
+import com.google.gson.Gson;
 import com.incorporar.MandaInformacionCola;
 import com.incorporarRemota.controlador.ControladorIncorporarRemota;
 
@@ -14,43 +14,66 @@ public class IncorporarRemota {
 
 
     private Socket misocket;
-    private DataInputStream entrada;
+
 
     private String token;
 
-    private  int id_cola;
-
-
-    private  int tiempoQuiere;
+    private Tiendaremota tiendaremota;
 
     private ControladorIncorporarRemota remota;
+    private DataInputStream reader;
+
+
+
     public IncorporarRemota(Socket misocket) {
         this.misocket = misocket;
     }
 
 
+
+    public void actuar(){
+
+        try {
+            reader = new DataInputStream( misocket.getInputStream());
+
+            Gson gson=new Gson();
+
+
+            String json=reader.readUTF();
+
+            tiendaremota=gson.fromJson(json, Tiendaremota.class);
+
+            token=reader.readUTF();
+
+            enviarRepuestaRemota();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
+
+
     private void enviarRepuestaRemota() throws IOException {
 
-        remota=new ControladorIncorporarRemota(tiempoQuiere,id_cola,token);
+        remota=new ControladorIncorporarRemota(tiendaremota.getTiempomedia(),tiendaremota.getId_cola(),token);
         DataOutputStream out=new DataOutputStream(misocket.getOutputStream());
 
+        int respuesta=remota.buscarSiYaestaDentrodeLacola();
 
-        int respuesta=remota.incorporarRemota();
+        out.writeInt(respuesta);
 
         if(respuesta==1){
-
 
             // coger el turno
             String miturno=String.valueOf(remota.incorporarRemota());
 
-            // arranca un hilo para esuchar los productos que eligra por el cliente
-            EscuchaOpcionProductos escuchaOpcionProductos=new EscuchaOpcionProductos(misocket);
-
-            escuchaOpcionProductos.start();
-
             // entra en bucle para mandar informacion acerca de cola
             //siempre y cuando el socket esta conectado
-            MandaInformacionCola informacion=new MandaInformacionCola(misocket,new BigDecimal(id_cola), new BigDecimal(remota.getId_usuario()),miturno);
+            MandaInformacionCola informacion=new MandaInformacionCola(misocket,new BigDecimal(tiendaremota.getId_cola()), new BigDecimal(remota.getId_usuario()),miturno);
 
             informacion.mandarJsonCola();
 
@@ -60,7 +83,6 @@ public class IncorporarRemota {
             misocket.close();
 
         }
-
 
     }
 

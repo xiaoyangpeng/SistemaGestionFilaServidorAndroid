@@ -35,14 +35,13 @@ public class VariableSQL {
 	public static final String ANDAIR_USUARIOENCOLA_QR="insert into usuarioEnCola values (?,?,?,'QR',null,'E',?,null)";
 
 
-
-
+	public static final String ANDAIR_USUARIOENCOLA_REMOTA="insert into usuarioEnCola values (?,?,?,'RE',null,'E',?,null)";
 	
 	public static final String TURNO_ACTUAL_EN_COLA="select turno_Actual from cola where id_cola=?";
 	
 	
 	
-	public static final String USUARIO_ANADIR_PRODUCTOS="insert into incorporar values(?,?,?,?)";
+	public static final String USUARIO_ANADIR_PRODUCTOS="insert into incorporar values(?,?,?,?,'E')";
 	
 	
 	public static final String BUSCAR_SI_EXISTE_IDPRODUCTO_CON_IDCOLA_IDUSUARIO="select id_usuario from incorporar where id_usuario=? and id_producto=? and id_cola=?";
@@ -68,5 +67,6 @@ public class VariableSQL {
 			+ "select qr from tienda join\r\n"
 			+ "cola on cola.id_tienda=tienda.id_tienda\r\n"
 			+ "where cola.id_cola=?";
+
 	
 }
