@@ -12,7 +12,7 @@ public class FehcaHoy {
 		
 		
 		Date now = new Date();
-		// ��Date���ո�ʽת�����ַ���
+
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
 		
 		return sdf.format(now);
@@ -22,7 +22,6 @@ public class FehcaHoy {
 	public static String horaNow() {
 		
 		Date now = new Date();
-		// ��Date���ո�ʽת�����ַ���
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:MM:SS");
 		
 		return sdf.format(now);

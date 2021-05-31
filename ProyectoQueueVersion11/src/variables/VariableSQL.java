@@ -35,7 +35,7 @@ public class VariableSQL {
 	public static final String ANDAIR_USUARIOENCOLA_QR="insert into usuarioEnCola values (?,?,?,'QR',null,'E',?,null)";
 
 
-	public static final String ANDAIR_USUARIOENCOLA_REMOTA="insert into usuarioEnCola values (?,?,?,'RE',null,'E',?,null)";
+	public static final String ANDAIR_USUARIOENCOLA_REMOTA="insert into usuarioEnCola values (?,?,?,'RE',?,'E',?,null)";
 	
 	public static final String TURNO_ACTUAL_EN_COLA="select turno_Actual from cola where id_cola=?";
 	

@@ -6,11 +6,14 @@ import token.JwtUtil;
 import variables.FehcaHoy;
 import variables.VariableSQL;
 
+import java.awt.*;
 import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ControladorIncorporarRemota extends BaseDao {
 
@@ -29,17 +32,18 @@ public class ControladorIncorporarRemota extends BaseDao {
                 this.id_cola = id_cola;
                 this.id_usuario= JwtUtil.vertificar(token);
 
+
         }
 
 
-     /*   public static void main(String[] args) {
+   /*    public static void main(String[] args) {
 
 
-                ControladorIncorporarRemota re=new ControladorIncorporarRemota(65,2);
+            ControladorIncorporarRemota re=new ControladorIncorporarRemota(60,361,"");
 
-                re.buscarTurno();
+            System.out.println(re.incorporarRemota());
 
-        }*/
+       }*/
 
 
 
@@ -87,9 +91,27 @@ public class ControladorIncorporarRemota extends BaseDao {
 
                 }
 
-       update(VariableSQL.ANDAIR_USUARIOENCOLA_REMOTA,id_usuario,id_cola, turnoEstima, FehcaHoy.horaNow());
+       update(VariableSQL.ANDAIR_USUARIOENCOLA_REMOTA,id_usuario,id_cola, turnoEstima, tiempoCancelar(),FehcaHoy.horaNow());
 
                 return  turnoEstima;
+
+        }
+
+
+        private  String tiempoCancelar(){
+            Date date=new Date();
+
+            Long now=date.getTime();
+
+            Long tiempoestima=(Long.parseLong(String.valueOf(tiempoQuiere)))*60000 ;
+
+
+            Date tiempoCancelar=new Date(tiempoestima+now);
+
+            SimpleDateFormat sdf= new SimpleDateFormat("HH:mm:ss");
+
+
+          return  sdf.format(tiempoCancelar);
 
         }
 
